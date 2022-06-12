@@ -1,4 +1,4 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 import React, { useContext, useEffect, useReducer } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,6 +13,7 @@ import { Store } from "../Store";
 import { getError } from "../utils";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -42,7 +43,10 @@ export default function OrderScreen() {
   const { id: orderId } = params;
   const navigate = useNavigate();
 
-  const [{ loading, error, order, successPay, loadingPay }, dispatch] = useReducer(reducer, {
+  const [
+    { loading, error, order, successPay, loadingPay },
+    dispatch,
+  ] = useReducer(reducer, {
     loading: true,
     order: {},
     error: "",
@@ -75,10 +79,7 @@ export default function OrderScreen() {
           }
         );
         dispatch({ type: "PAY_SUCCESS", payload: data });
-        toast.success("Order is paid",{
-          autoClose: 500,
-          closeOnClick: true,
-        });
+        toast.success("Order is paid");
       } catch (err) {
         dispatch({ type: "PAY_FAIL", payload: getError(err) });
         toast.error(getError(err));
@@ -86,9 +87,9 @@ export default function OrderScreen() {
     });
   }
   function onError(err) {
-    console.log('====================================');
+    console.log("====================================");
     console.log(err);
-    console.log('====================================');
+    console.log("====================================");
     toast.error(getError(err));
   }
   useEffect(() => {
@@ -109,8 +110,8 @@ export default function OrderScreen() {
     }
     if (!order._id || successPay || (order._id && order._id !== orderId)) {
       fetchOrder();
-      if(successPay) {
-        dispatch({type: 'PAY_RESET'});
+      if (successPay) {
+        dispatch({ type: "PAY_RESET" });
       }
     } else {
       const loadPayPalScript = async () => {
