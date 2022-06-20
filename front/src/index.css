@@ -1,22 +1,21 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.site-container{
+.site-container {
   min-height: 100vh;
 }
 main {
   flex: 1;
 }
-.btn-primary, .btn-outline-primary {
+.btn-primary,
+.btn-outline-primary {
   background-color: #ffc000;
   color: #000000;
-  
-
 }
 .products {
   display: flex;
@@ -66,7 +65,7 @@ main {
   background-color: #100901;
   transition: 0.5s;
 }
-.site-container{
+.site-container {
   transition: 0.4s;
 }
 .active-cont {
@@ -74,4 +73,43 @@ main {
 }
 .active-nav {
   left: 0;
+}
+/* Map */
+
+.full-box {
+  height: 100vh;
+  max-width: initial;
+}
+.full-box header,
+.full-box footer {
+  display: none;
+}
+.full-box .container {
+  height: 100vh;
+  max-width: initial;
+  margin: 0;
+  padding: 0;
+}
+
+.full-box .mt-3 {
+  margin-top: 0 !important;
+}
+
+.map-input-box {
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0.5rem auto;
+  width: 25rem;
+  height: 3rem;
+  display: flex;
+}
+.map-input-box input {
+  border-radius: 1rem 0 0 1rem;
+  border-right: 0;
+}
+.map-input-box button {
+  border-radius: 0 1rem 1rem 0;
+  border-left: 0;
 }

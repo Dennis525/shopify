@@ -125,13 +125,18 @@ export default function OrderScreen() {
     if (!userInfo) {
       return navigate("/login");
     }
-    if (!order._id || successPay || successDeliver || (order._id && order._id !== orderId)) {
+    if (
+      !order._id ||
+      successPay ||
+      successDeliver ||
+      (order._id && order._id !== orderId)
+    ) {
       fetchOrder();
       if (successPay) {
         dispatch({ type: "PAY_RESET" });
       }
-      if (successDeliver){
-        dispatch({type: "PAY_RESET"})
+      if (successDeliver) {
+        dispatch({ type: "PAY_RESET" });
       }
     } else {
       const loadPayPalScript = async () => {
@@ -149,10 +154,18 @@ export default function OrderScreen() {
       };
       loadPayPalScript();
     }
-  }, [order, userInfo, orderId, navigate, paypalDispatch, successPay,successDeliver,]);
+  }, [
+    order,
+    userInfo,
+    orderId,
+    navigate,
+    paypalDispatch,
+    successPay,
+    successDeliver,
+  ]);
   async function deliverOrderHandler() {
     try {
-      dispatch({ type: 'DELIVER_REQUEST' });
+      dispatch({ type: "DELIVER_REQUEST" });
       const { data } = await axios.put(
         `/api/orders/${order._id}/deliver`,
         {},
@@ -160,11 +173,11 @@ export default function OrderScreen() {
           headers: { authorization: `Bearer ${userInfo.token}` },
         }
       );
-      dispatch({ type: 'DELIVER_SUCCESS', payload: data });
-      toast.success('Order is delivered');
+      dispatch({ type: "DELIVER_SUCCESS", payload: data });
+      toast.success("Order is delivered");
     } catch (err) {
       toast.error(getError(err));
-      dispatch({ type: 'DELIVER_FAIL' });
+      dispatch({ type: "DELIVER_FAIL" });
     }
   }
   return loading ? (
@@ -187,6 +200,16 @@ export default function OrderScreen() {
                 <strong>Address: </strong> {order.shippingAddress.address},
                 {order.shippingAddress.city}, {order.shippingAddress.postalCode}
                 ,{order.shippingAddress.country}
+                &nbsp;
+                {order.shippingAddress.location &&
+                  order.shippingAddress.location.lat && (
+                    <a
+                      target="_new"
+                      href={`https://maps.google.com?q=${order.shippingAddress.location.lat},${order.shippingAddress.location.lng}`}
+                    >
+                      Show On Map
+                    </a>
+                  )}
               </Card.Text>
               {order.isDelivered ? (
                 <MessageBox variant="success">
@@ -287,7 +310,7 @@ export default function OrderScreen() {
                     {loadingPay && <LoadingBox></LoadingBox>}
                   </ListGroup.Item>
                 )}
-                 {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
                   <ListGroup.Item>
                     {loadingDeliver && <LoadingBox></LoadingBox>}
                     <div className="d-grid">

@@ -33,10 +33,10 @@ import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
-
+import MapScreen from "./screens/MapScreen";
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo } = state;
+  const { cart, userInfo, fullBox } = state;
 
   const signoutHandler = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
@@ -64,8 +64,12 @@ function App() {
       <div
         className={
           sidebarIsOpen
-            ? "d-flex flex-column site-container active-cont"
-            : "d-flex flex-column site-container"
+            ? fullBox
+              ? "site-container active-cont d-flex flex-column full-box"
+              : "site-container active-cont d-flex flex-column"
+            : fullBox
+            ? "site-container d-flex flex-column full-box"
+            : "site-container d-flex flex-column"
         }
       >
         <ToastContainer position="botton-center" limit={1} />
@@ -187,6 +191,14 @@ function App() {
                 }
               />
               <Route
+                path="/map"
+                element={
+                  <ProtectedRoute>
+                    <MapScreen />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
                 path="/orderhistory"
                 element={
                   <ProtectedRoute>
@@ -212,7 +224,7 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-               <Route
+              <Route
                 path="/admin/orders"
                 element={
                   <AdminRoute>
@@ -220,7 +232,7 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-               <Route
+              <Route
                 path="/admin/product/:id"
                 element={
                   <AdminRoute>
@@ -228,7 +240,7 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-               <Route
+              <Route
                 path="/admin/users"
                 element={
                   <AdminRoute>
